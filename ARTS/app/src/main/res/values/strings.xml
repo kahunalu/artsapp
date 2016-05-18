@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">ARTS</string>
+
+    <string name="toast_button">Toast Button</string>
+    <string name="ar_placeholder">AR Placeholder</string>
+</resources>
