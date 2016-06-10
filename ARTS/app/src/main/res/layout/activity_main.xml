@@ -5,19 +5,6 @@
     android:background="#0099cc"
     tools:context="com.uvic.arts.MainActivity">
 
-    <TextView
-        android:id="@+id/ar_placeholder"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:paddingBottom="50dp"
-        android:gravity="center"
-        android:keepScreenOn="true"
-        android:text="@string/ar_placeholder"
-        android:textColor="#33b5e5"
-        android:textSize="50sp"
-        android:textStyle="bold" />
-
     <Button
         android:id="@+id/toast_button"
         style="?metaButtonBarButtonStyle"
@@ -27,5 +14,27 @@
         android:background="@color/black_overlay"
         android:layout_gravity="bottom"
         android:text="@string/toast_button" />
+
+    <TextView
+        android:id="@+id/ar_placeholder"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal|top"
+        android:paddingBottom="50dp"
+        android:gravity="center"
+        android:keepScreenOn="true"
+        android:text="@string/ar_placeholder"
+        android:textColor="#33b5e5"
+        android:textSize="50sp"
+        android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="310dp"
+            android:layout_height="324dp"
+            android:text="Content placeholder"
+            android:id="@+id/contentTextView"
+            android:maxLines = "100"
+            android:scrollbars = "vertical"
+            android:layout_gravity="center" />
 
 </FrameLayout>
