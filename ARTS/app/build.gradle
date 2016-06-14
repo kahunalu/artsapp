@@ -17,6 +17,12 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['src/main/libs', 'src/main/libs/']
+            assets.srcDirs = ['src/main/assets', 'src/main/assets/']
+        }
+    }
 }
 
 dependencies {
@@ -27,4 +33,5 @@ dependencies {
     compile 'com.journeyapps:zxing-android-embedded:3.3.0@aar'
     compile 'com.google.zxing:core:3.2.1'
     compile 'com.squareup.okhttp3:okhttp:3.3.1'
+    compile project(':aRBaseLib')
 }

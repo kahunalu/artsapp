@@ -69,6 +69,8 @@ public class MainActivity extends AppCompatActivity {
             TextView contentTextView = (TextView) findViewById(R.id.contentTextView);
             contentTextView.setMovementMethod(new ScrollingMovementMethod());
             contentTextView.setText(response);
+            Intent intentARToolkit = new Intent(getApplicationContext(), ARToolkitActivity.class);
+            startActivity(intentARToolkit);
         }
     }
 }
