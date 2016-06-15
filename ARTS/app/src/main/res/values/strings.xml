@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">ARTS</string>
-
-    <string name="toast_button">Toast Button</string>
-    <string name="ar_placeholder">AR Placeholder</string>
+    <string name="scan_anchor_tag">Scan Anchor Tag</string>
+    <string name="launch_ar">View in AR</string>
+    <string name="content_placeholder">Please scan an Anchor Tag to retrieve content.</string>
 </resources>
