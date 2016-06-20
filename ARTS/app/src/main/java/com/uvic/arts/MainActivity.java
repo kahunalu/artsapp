@@ -21,6 +21,7 @@ import android.widget.Toast;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
+import org.artoolkit.ar.base.assets.AssetHelper;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -34,6 +35,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        this.initializeInstance();
 
         setContentView(R.layout.activity_main);
         Button scanButton = (Button) findViewById(R.id.scan_button);
@@ -80,6 +83,17 @@ public class MainActivity extends AppCompatActivity {
         } else {
             super.onActivityResult(requestCode, resultCode, data);
         }
+    }
+
+    // Here we do one-off initialisation which should apply to all activities
+    // in the application.
+    protected void initializeInstance() {
+
+        // Unpack assets to cache directory so native library can read them.
+        // N.B.: If contents of assets folder changes, be sure to increment the
+        // versionCode integer in the AndroidManifest.xml file.
+        AssetHelper assetHelper = new AssetHelper(getAssets());
+        assetHelper.cacheAssetFolder(this, "Data");
     }
 
     class FetchContentTask extends AsyncTask<String, Void, String> {
