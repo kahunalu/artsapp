@@ -18,6 +18,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+
+
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
@@ -159,7 +161,15 @@ public class MainActivity extends AppCompatActivity {
                         // Decode image and display
                         byte[] decodedString = Base64.decode(formattedArContent, Base64.DEFAULT);
                         Bitmap bitmap = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
-                        contentImageView.setImageBitmap(bitmap);
+
+                        //TODO Add in the texture to AR thing
+                        Intent intentARToolkit = new Intent(MainActivity.this, ARToolkitActivity.class);
+
+                        // Add bitmap for texture to intent
+                        intentARToolkit.putExtra("BitmapImage", bitmap);
+
+                        // Start Activity
+                        startActivity(intentARToolkit);
                     }
 
                     if (launchARButton != null) {
