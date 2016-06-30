@@ -1,5 +1,6 @@
 package com.uvic.arts;
 
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.widget.FrameLayout;
 
@@ -7,19 +8,19 @@ import org.artoolkit.ar.base.ARActivity;
 import org.artoolkit.ar.base.rendering.ARRenderer;
 
 public class ARToolkitActivity extends ARActivity{
-    private String arContent;
+    private Bitmap bitmap;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_artoolkit);
 
-        arContent = getIntent().getStringExtra(ARTSConstants.INTENT_CONTENT);
+        this.bitmap = (Bitmap) getIntent().getParcelableExtra("BitmapImage");
     }
 
     @Override
     protected ARRenderer supplyRenderer() {
-        return new RenderObject();
+        return new RenderObject(this.bitmap);
     }
 
     @Override
