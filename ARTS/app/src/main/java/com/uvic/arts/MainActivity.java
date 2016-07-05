@@ -156,17 +156,12 @@ public class MainActivity extends AppCompatActivity {
                         contentImageView.setVisibility(View.VISIBLE);
                         // Strip data that isn't the bytes themselves - Might remove this from server response
                         // in the future if we don't need it for AR purposes
-                        String formattedArContent = arContent.replace("data:image/jpeg;base64,", "");
+                        String encodedImage = arContent.replace("data:image/jpeg;base64,", "");
 
-                        // Decode image and display
-                        byte[] decodedString = Base64.decode(formattedArContent, Base64.DEFAULT);
-                        Bitmap bitmap = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
-
-                        //TODO Add in the texture to AR thing
                         Intent intentARToolkit = new Intent(MainActivity.this, ARToolkitActivity.class);
 
-                        // Add bitmap for texture to intent
-                        intentARToolkit.putExtra("BitmapImage", bitmap);
+                        // Add encoded image string to the intent
+                        intentARToolkit.putExtra(ARTSConstants.IMAGE_CONTENT, encodedImage);
 
                         // Start Activity
                         startActivity(intentARToolkit);

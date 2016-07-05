@@ -1,7 +1,10 @@
 package com.uvic.arts;
 
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.util.Base64;
+import android.util.Log;
 import android.widget.FrameLayout;
 
 import org.artoolkit.ar.base.ARActivity;
@@ -15,7 +18,9 @@ public class ARToolkitActivity extends ARActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_artoolkit);
 
-        this.bitmap = (Bitmap) getIntent().getParcelableExtra("BitmapImage");
+        // Decode image create bitmap
+        byte[] decodedString = Base64.decode(getIntent().getStringExtra(ARTSConstants.IMAGE_CONTENT), Base64.DEFAULT);
+        this.bitmap = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
     }
 
     @Override
