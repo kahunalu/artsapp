@@ -19,7 +19,7 @@ public class ARToolkitActivity extends ARActivity{
         setContentView(R.layout.activity_artoolkit);
 
         // Decode image create bitmap
-        byte[] decodedString = Base64.decode(getIntent().getStringExtra(ARTSConstants.IMAGE_CONTENT), Base64.DEFAULT);
+        byte[] decodedString = Base64.decode(getIntent().getStringExtra(ARTSConstants.CONTENT_DATA), Base64.DEFAULT);
         this.bitmap = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
     }
 

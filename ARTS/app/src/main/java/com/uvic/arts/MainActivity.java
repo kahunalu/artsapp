@@ -131,46 +131,27 @@ public class MainActivity extends AppCompatActivity {
             try {
                 jsonObject = new JSONObject(response);
 
-                // Check if content is text or an image, and handle it accordingly
-                if (jsonObject.getString(ARTSConstants.CONTENT_TYPE_KEY).equals(ARTSConstants.TEXT_CONTENT)) {
-                    arContent = jsonObject.getString(ARTSConstants.CONTENT_DATA_KEY);
-                    if (contentTextView != null) {
-                        contentTextView.setVisibility(View.VISIBLE);
-                        contentTextView.setText(arContent);
-                    }
-
-                    if (contentImageView != null) {
-                        contentImageView.setVisibility(View.GONE);
-                    }
-
-                    if (launchARButton != null) {
-                        launchARButton.setVisibility(View.VISIBLE);
-                    }
-                } else if (jsonObject.getString(ARTSConstants.CONTENT_TYPE_KEY).equals(ARTSConstants.IMAGE_CONTENT)) {
-                    arContent = jsonObject.getString(ARTSConstants.CONTENT_DATA_KEY);
-                    if (contentTextView != null) {
-                        contentTextView.setVisibility(View.GONE);
-                    }
-
-                    if (contentImageView != null) {
-                        contentImageView.setVisibility(View.VISIBLE);
-                        // Strip data that isn't the bytes themselves - Might remove this from server response
-                        // in the future if we don't need it for AR purposes
-                        String encodedImage = arContent.replace("data:image/jpeg;base64,", "");
-
-                        Intent intentARToolkit = new Intent(MainActivity.this, ARToolkitActivity.class);
-
-                        // Add encoded image string to the intent
-                        intentARToolkit.putExtra(ARTSConstants.IMAGE_CONTENT, encodedImage);
-
-                        // Start Activity
-                        startActivity(intentARToolkit);
-                    }
-
-                    if (launchARButton != null) {
-                        launchARButton.setVisibility(View.VISIBLE);
-                    }
+                arContent = jsonObject.getString(ARTSConstants.CONTENT_DATA_KEY);
+                if (contentTextView != null) {
+                    contentTextView.setVisibility(View.GONE);
                 }
+
+                if (contentImageView != null) {
+                    contentImageView.setVisibility(View.VISIBLE);
+
+                    Intent intentARToolkit = new Intent(MainActivity.this, ARToolkitActivity.class);
+
+                    // Add encoded image string to the intent
+                    intentARToolkit.putExtra(ARTSConstants.CONTENT_DATA, arContent);
+
+                    // Start Activity
+                    startActivity(intentARToolkit);
+                }
+
+                if (launchARButton != null) {
+                    launchARButton.setVisibility(View.VISIBLE);
+                }
+
             } catch (JSONException jsonException) {
                 Toast.makeText(MainActivity.this, jsonException.getMessage(), Toast.LENGTH_LONG).show();
                 if (launchARButton != null) {
