@@ -43,7 +43,7 @@ public class RenderObject extends ARRenderer {
 
         gl.glEnable(GL10.GL_TEXTURE_2D);			//Enable Texture Mapping ( NEW )
         gl.glShadeModel(GL10.GL_SMOOTH); 			//Enable Smooth Shading
-        gl.glClearColor(0.0f, 0.0f, 0.0f, 0.5f); 	//Black Background
+        gl.glClearColor(0.0f, 0.0f, 0.0f, 0.0f); 	//Black Background
         gl.glClearDepthf(1.0f); 					//Depth Buffer Setup
         gl.glEnable(GL10.GL_DEPTH_TEST); 			//Enables Depth Testing
         gl.glDepthFunc(GL10.GL_LEQUAL); 			//The Type Of Depth Testing To Do
