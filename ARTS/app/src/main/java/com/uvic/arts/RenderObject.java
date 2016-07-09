@@ -26,7 +26,7 @@ public class RenderObject extends ARRenderer {
     @Override
     public boolean configureARScene() {
 
-        markerID = ARToolKit.getInstance().addMarker("single;Data/catface.pat;80");
+        markerID = ARToolKit.getInstance().addMarker("single;Data/marker16.pat;80");
         if (markerID < 0) return false;
 
         return true;
