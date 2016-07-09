@@ -57,6 +57,8 @@ public class RenderObject extends ARRenderer {
      */
     @Override
     public void draw(GL10 gl) {
+        gl.glClear(GL10.GL_COLOR_BUFFER_BIT | GL10.GL_DEPTH_BUFFER_BIT);
+
         // Apply the ARToolKit projection matrix
         gl.glMatrixMode(GL10.GL_PROJECTION);
         gl.glLoadMatrixf(ARToolKit.getInstance().getProjectionMatrix(), 0);
@@ -67,8 +69,6 @@ public class RenderObject extends ARRenderer {
             gl.glLoadMatrixf(ARToolKit.getInstance().queryMarkerTransformation(markerID), 0);
 
             rectangle.draw(gl);
-        }else{
-            System.out.println("delete");
         }
     }
 }
