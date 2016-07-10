@@ -2,42 +2,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#0099cc"
+    android:background="#90CAF9"
     tools:context="com.uvic.arts.MainActivity">
-
-    <Button
-        android:id="@+id/launch_ar"
-        style="?metaButtonBarButtonStyle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/black_overlay"
-        android:layout_gravity="top"
-        android:text="@string/launch_ar"
-        android:visibility="gone"/>
-
-    <TextView
-        android:id="@+id/content_text"
-        android:layout_width="310dp"
-        android:layout_height="324dp"
-        android:text="@string/content_placeholder"
-        android:layout_gravity="center"
-        android:gravity="center_horizontal"
-        android:textSize="20sp"/>
-
-    <ImageView
-        android:id="@+id/content_image"
-        android:layout_width="310dp"
-        android:layout_height="324dp"
-        android:layout_gravity="center"
-        android:visibility="gone"/>
 
     <Button
         android:id="@+id/scan_button"
         style="?metaButtonBarButtonStyle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/black_overlay"
-        android:layout_gravity="bottom"
+        android:layout_width="300dp"
+        android:layout_height="200dp"
+        android:textSize="25sp"
+        android:background="@color/colorPrimary"
+        android:layout_gravity="center"
+        android:textColor="@android:color/white"
+        android:elevation="8dp"
         android:text="@string/scan_anchor_tag"/>
 
 </FrameLayout>

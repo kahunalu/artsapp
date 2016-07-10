@@ -1,6 +1,4 @@
 <resources>
     <string name="app_name">ARTS</string>
-    <string name="scan_anchor_tag">Scan Anchor Tag</string>
-    <string name="launch_ar">View in AR</string>
-    <string name="content_placeholder">Please scan an Anchor Tag to retrieve content.</string>
+    <string name="scan_anchor_tag">Tap Here To \nScan Anchor Tag</string>
 </resources>
