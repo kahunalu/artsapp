@@ -2,20 +2,13 @@ package com.uvic.arts;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.method.ScrollingMovementMethod;
-import android.util.Base64;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -32,8 +25,6 @@ import java.io.IOException;
 public class MainActivity extends AppCompatActivity {
     public RequestManager requestManager;
 
-    private String arContent = null;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,25 +33,12 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
         Button scanButton = (Button) findViewById(R.id.scan_button);
-        Button launchArButton = (Button) findViewById(R.id.launch_ar);
 
         if (scanButton != null) {
             scanButton.setOnTouchListener(new View.OnTouchListener() {
                 @Override
                 public boolean onTouch(View view, MotionEvent motionEvent) {
                     new IntentIntegrator(MainActivity.this).initiateScan();
-                    return false;
-                }
-            });
-        }
-
-        if (launchArButton != null) {
-            launchArButton.setOnTouchListener(new View.OnTouchListener() {
-                @Override
-                public boolean onTouch(View view, MotionEvent motionEvent) {
-                    Intent intentARToolkit = new Intent(MainActivity.this, ARToolkitActivity.class);
-                    intentARToolkit.putExtra(ARTSConstants.INTENT_CONTENT, arContent);
-                    startActivity(intentARToolkit);
                     return false;
                 }
             });
@@ -79,7 +57,6 @@ public class MainActivity extends AppCompatActivity {
         IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
         if(result != null) {
             if(result.getContents() != null) {
-                Toast.makeText(this, "Scanned: " + result.getContents(), Toast.LENGTH_LONG).show();
                 new FetchContentTask().execute(result.getContents());
             }
         } else {
@@ -119,9 +96,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
         protected void onPostExecute(String response) {
-            TextView contentTextView = (TextView) findViewById(R.id.content_text);
-            ImageView contentImageView = (ImageView) findViewById(R.id.content_image);
-            Button launchARButton = (Button) findViewById(R.id.launch_ar);
             JSONObject jsonObject;
 
             if (progressDialog.isShowing()) {
@@ -131,32 +105,16 @@ public class MainActivity extends AppCompatActivity {
             try {
                 jsonObject = new JSONObject(response);
 
-                arContent = jsonObject.getString(ARTSConstants.CONTENT_DATA_KEY);
-                if (contentTextView != null) {
-                    contentTextView.setVisibility(View.GONE);
-                }
+                // Create ARToolkit activity intent
+                Intent intentARToolkitActivity = new Intent(MainActivity.this, ARToolkitActivity.class);
 
-                if (contentImageView != null) {
-                    contentImageView.setVisibility(View.VISIBLE);
+                // Add encoded image string to the intent
+                intentARToolkitActivity.putExtra(ARTSConstants.CONTENT_DATA, jsonObject.getString(ARTSConstants.CONTENT_DATA_KEY));
 
-                    Intent intentARToolkit = new Intent(MainActivity.this, ARToolkitActivity.class);
-
-                    // Add encoded image string to the intent
-                    intentARToolkit.putExtra(ARTSConstants.CONTENT_DATA, arContent);
-
-                    // Start Activity
-                    startActivity(intentARToolkit);
-                }
-
-                if (launchARButton != null) {
-                    launchARButton.setVisibility(View.VISIBLE);
-                }
-
+                // Start Activity
+                startActivity(intentARToolkitActivity);
             } catch (JSONException jsonException) {
                 Toast.makeText(MainActivity.this, jsonException.getMessage(), Toast.LENGTH_LONG).show();
-                if (launchARButton != null) {
-                    launchARButton.setVisibility(View.GONE);
-                }
             }
         }
     }
