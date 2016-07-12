@@ -21,12 +21,10 @@ public class ARToolkitActivity extends ARActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_artoolkit);
 
-        String[] parameters = getIntent().getStringArrayExtra(ARTSConstants.CONTENT_DATA);
-
         // Decode image create bitmap
-        byte[] decodedString = Base64.decode(parameters[0], Base64.DEFAULT);
+        byte[] decodedString = Base64.decode(getIntent().getStringExtra(ARTSConstants.CONTENT_DATA), Base64.DEFAULT);
+        this.size = Integer.parseInt(getIntent().getStringExtra(ARTSConstants.CONTENT_SIZE));
         this.bitmap = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
-        this.size = Integer.parseInt(parameters[1]);
     }
 
     @Override

@@ -108,17 +108,9 @@ public class MainActivity extends AppCompatActivity {
                 // Create ARToolkit activity intent
                 Intent intentARToolkitActivity = new Intent(MainActivity.this, ARToolkitActivity.class);
 
-                //Create parameter array
-                String[] parameters = {
-                        jsonObject.getString(ARTSConstants.CONTENT_DATA_KEY),
-                        jsonObject.getString(ARTSConstants.CONTENT_SIZE_KEY)
-                };
-
                 // Add encoded image string to the intent
-                intentARToolkitActivity.putExtra(
-                        ARTSConstants.CONTENT_DATA,
-                        parameters
-                );
+                intentARToolkitActivity.putExtra(ARTSConstants.CONTENT_DATA, jsonObject.getString(ARTSConstants.CONTENT_DATA_KEY));
+                intentARToolkitActivity.putExtra(ARTSConstants.CONTENT_SIZE, jsonObject.getString(ARTSConstants.CONTENT_SIZE_KEY));
 
                 // Start Activity
                 startActivity(intentARToolkitActivity);
