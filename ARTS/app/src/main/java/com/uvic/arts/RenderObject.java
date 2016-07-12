@@ -20,8 +20,6 @@ public class RenderObject extends ARRenderer {
         this.bitmap = bitmap;
         this.size = size;
 
-        System.out.println(size);
-
         rectangle = new Rectangle(this.bitmap, this.size);
     }
 
