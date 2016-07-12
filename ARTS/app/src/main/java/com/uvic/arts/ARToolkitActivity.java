@@ -13,6 +13,7 @@ import org.artoolkit.ar.base.rendering.ARRenderer;
 
 public class ARToolkitActivity extends ARActivity{
     private Bitmap bitmap;
+    private int size;
     private boolean firstUpdate = false;
 
     @Override
@@ -22,12 +23,13 @@ public class ARToolkitActivity extends ARActivity{
 
         // Decode image create bitmap
         byte[] decodedString = Base64.decode(getIntent().getStringExtra(ARTSConstants.CONTENT_DATA), Base64.DEFAULT);
+        this.size = Integer.parseInt(getIntent().getStringExtra(ARTSConstants.CONTENT_SIZE));
         this.bitmap = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
     }
 
     @Override
     protected ARRenderer supplyRenderer() {
-        return new RenderObject(this.bitmap);
+        return new RenderObject(this.bitmap, this.size);
     }
 
     @Override

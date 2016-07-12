@@ -14,10 +14,13 @@ public class RenderObject extends ARRenderer {
     private int markerID = -1;
     private Rectangle rectangle;
     private Bitmap bitmap;
+    private int size = 1;
 
-    public RenderObject(Bitmap bitmap){
+    public RenderObject(Bitmap bitmap, int size){
         this.bitmap = bitmap;
-        rectangle = new Rectangle(this.bitmap);
+        this.size = size;
+
+        rectangle = new Rectangle(this.bitmap, this.size);
     }
 
     /**

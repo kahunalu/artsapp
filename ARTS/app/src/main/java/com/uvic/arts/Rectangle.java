@@ -12,6 +12,7 @@ import javax.microedition.khronos.opengles.GL10;
 public class Rectangle {
 
     private Bitmap bitmap;
+    private int size;
 
     // Mapping coordinates for the vertices
 
@@ -23,10 +24,10 @@ public class Rectangle {
     };
 
     private float vertices[]={
-            -200.0f, 200.0f, 0.0f,
-            -200.0f,-200.0f,0.0f,
-            200.0f,-200.0f,0.0f,
-            200.0f,200.0f,0.0f
+            -100.0f, 100.0f, 0.0f,
+            -100.0f,-100.0f,0.0f,
+            100.0f,-100.0f,0.0f,
+            100.0f,100.0f,0.0f
     };
 
     private short[] indices = {0,1,2,0,2,3};
@@ -35,8 +36,14 @@ public class Rectangle {
     private ShortBuffer indexBuffer;
     private FloatBuffer textureBuffer;
 
-    public Rectangle(Bitmap bitmap){
+    public Rectangle(Bitmap bitmap, int size){
         this.bitmap = bitmap;
+        this.size = size;
+
+        //Resize rectangle
+        for( int i = 0; i < vertices.length; i++){
+            vertices[i] = vertices[i] * this.size;
+        }
 
         ByteBuffer vbb  = ByteBuffer.allocateDirect(vertices.length * 4);
         vbb.order(ByteOrder.nativeOrder());

@@ -110,6 +110,7 @@ public class MainActivity extends AppCompatActivity {
 
                 // Add encoded image string to the intent
                 intentARToolkitActivity.putExtra(ARTSConstants.CONTENT_DATA, jsonObject.getString(ARTSConstants.CONTENT_DATA_KEY));
+                intentARToolkitActivity.putExtra(ARTSConstants.CONTENT_SIZE, jsonObject.getString(ARTSConstants.CONTENT_SIZE_KEY));
 
                 // Start Activity
                 startActivity(intentARToolkitActivity);
