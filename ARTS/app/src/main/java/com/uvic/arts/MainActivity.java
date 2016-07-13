@@ -11,8 +11,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-
-
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
@@ -20,6 +18,8 @@ import org.artoolkit.ar.base.assets.AssetHelper;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity {
@@ -87,36 +87,58 @@ public class MainActivity extends AppCompatActivity {
 
         protected String doInBackground(String... contentIds) {
             try {
-                return requestManager.getContent(contentIds[0]);
+                // Make sure we wait at least one second before starting ARToolKit's camera
+                // otherwise it will fail to initialize, since we were just using the camera
+                // to read the QR code. Hacky, but it works.
+                Thread.sleep(1000);
+                String response = requestManager.getContent(contentIds[0]);
+
+                JSONObject jsonObject;
+                String size = null;
+
+                try {
+                    jsonObject = new JSONObject(response);
+
+                    // Get image size
+                    size = jsonObject.getString(ARTSConstants.CONTENT_SIZE_KEY);
+
+                    // Save imageData to a file, since it can be too big to pass in an intent
+                    String imageData = jsonObject.getString(ARTSConstants.CONTENT_DATA_KEY);
+                    File file = new File(MainActivity.this.getFilesDir(), ARTSConstants.CONTENT_DATA_FILENAME);
+                    FileOutputStream outputStream = new FileOutputStream(file);
+                    outputStream.write(imageData.getBytes());
+
+                } catch (JSONException | IOException exception) {
+                    if (progressDialog.isShowing()) {
+                        progressDialog.dismiss();
+                    }
+
+                    Toast.makeText(MainActivity.this, exception.getMessage(), Toast.LENGTH_LONG).show();
+                }
+
+                return size;
             } catch (IOException ioException) {
                 Toast.makeText(MainActivity.this, "Error retrieving content", Toast.LENGTH_LONG).show();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
 
             return "";
         }
 
-        protected void onPostExecute(String response) {
-            JSONObject jsonObject;
-
+        protected void onPostExecute(String contentSize) {
             if (progressDialog.isShowing()) {
                 progressDialog.dismiss();
             }
 
-            try {
-                jsonObject = new JSONObject(response);
+            // Create ARToolkit activity intent
+            Intent intentARToolkitActivity = new Intent(MainActivity.this, ARToolkitActivity.class);
 
-                // Create ARToolkit activity intent
-                Intent intentARToolkitActivity = new Intent(MainActivity.this, ARToolkitActivity.class);
+            // Add content size to the intent
+            intentARToolkitActivity.putExtra(ARTSConstants.CONTENT_SIZE, contentSize);
 
-                // Add encoded image string to the intent
-                intentARToolkitActivity.putExtra(ARTSConstants.CONTENT_DATA, jsonObject.getString(ARTSConstants.CONTENT_DATA_KEY));
-                intentARToolkitActivity.putExtra(ARTSConstants.CONTENT_SIZE, jsonObject.getString(ARTSConstants.CONTENT_SIZE_KEY));
-
-                // Start Activity
-                startActivity(intentARToolkitActivity);
-            } catch (JSONException jsonException) {
-                Toast.makeText(MainActivity.this, jsonException.getMessage(), Toast.LENGTH_LONG).show();
-            }
+            // Start Activity
+            startActivity(intentARToolkitActivity);
         }
     }
 }
