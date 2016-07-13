@@ -1,2 +1,2 @@
-configurations.create("default")
-artifacts.add("default", file('aRBaseLib-debug.aar'))
+configurations.maybeCreate("default")
+artifacts.add("default", file('aRBaseLib-release.aar'))
