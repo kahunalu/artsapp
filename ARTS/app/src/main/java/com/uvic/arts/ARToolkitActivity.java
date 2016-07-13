@@ -6,10 +6,16 @@ import android.os.Bundle;
 import android.util.Base64;
 import android.util.Log;
 import android.widget.FrameLayout;
+import android.widget.Toast;
 
+import org.apache.commons.io.IOUtils;
 import org.artoolkit.ar.base.ARActivity;
 import org.artoolkit.ar.base.ARToolKit;
 import org.artoolkit.ar.base.rendering.ARRenderer;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 
 public class ARToolkitActivity extends ARActivity{
     private Bitmap bitmap;
@@ -19,10 +25,30 @@ public class ARToolkitActivity extends ARActivity{
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // Override ARActivity's showing of status bar
+        this.requestWindowFeature(1);
+        this.getWindow().addFlags(1024);
+
+        // Set layout xml file
         setContentView(R.layout.activity_artoolkit);
 
+        // Read imageData from file
+        File file = new File(ARToolkitActivity.this.getFilesDir(), ARTSConstants.CONTENT_DATA_FILENAME);
+        String imageData = null;
+
+        try {
+            FileInputStream inputStream = new FileInputStream(file);
+            imageData = IOUtils.toString(inputStream);
+        } catch (IOException e) {
+            Toast.makeText(ARToolkitActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
+
+            // If we fail at reading data close the activity
+            finish();
+        }
+
         // Decode image create bitmap
-        byte[] decodedString = Base64.decode(getIntent().getStringExtra(ARTSConstants.CONTENT_DATA), Base64.DEFAULT);
+        byte[] decodedString = Base64.decode(imageData, Base64.DEFAULT);
         this.size = Integer.parseInt(getIntent().getStringExtra(ARTSConstants.CONTENT_SIZE));
         this.bitmap = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
     }

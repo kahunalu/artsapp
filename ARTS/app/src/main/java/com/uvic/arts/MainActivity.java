@@ -20,6 +20,8 @@ import org.artoolkit.ar.base.assets.AssetHelper;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity {
@@ -87,9 +89,15 @@ public class MainActivity extends AppCompatActivity {
 
         protected String doInBackground(String... contentIds) {
             try {
+                // Make sure we wait at least one second before starting ARToolKit's camera
+                // otherwise it will fail to initialize, since we were just using the camera
+                // to read the QR code. Hacky, but it works.
+                Thread.sleep(1000);
                 return requestManager.getContent(contentIds[0]);
             } catch (IOException ioException) {
                 Toast.makeText(MainActivity.this, "Error retrieving content", Toast.LENGTH_LONG).show();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
 
             return "";
@@ -108,14 +116,19 @@ public class MainActivity extends AppCompatActivity {
                 // Create ARToolkit activity intent
                 Intent intentARToolkitActivity = new Intent(MainActivity.this, ARToolkitActivity.class);
 
-                // Add encoded image string to the intent
-                intentARToolkitActivity.putExtra(ARTSConstants.CONTENT_DATA, jsonObject.getString(ARTSConstants.CONTENT_DATA_KEY));
+                // Save imageData to a file, since it can be too big to pass in an intent
+                String imageData = jsonObject.getString(ARTSConstants.CONTENT_DATA_KEY);
+                File file = new File(MainActivity.this.getFilesDir(), ARTSConstants.CONTENT_DATA_FILENAME);
+                FileOutputStream outputStream = new FileOutputStream(file);
+                outputStream.write(imageData.getBytes());
+
+                // Add content size to the intent
                 intentARToolkitActivity.putExtra(ARTSConstants.CONTENT_SIZE, jsonObject.getString(ARTSConstants.CONTENT_SIZE_KEY));
 
                 // Start Activity
                 startActivity(intentARToolkitActivity);
-            } catch (JSONException jsonException) {
-                Toast.makeText(MainActivity.this, jsonException.getMessage(), Toast.LENGTH_LONG).show();
+            } catch (JSONException | IOException exception) {
+                Toast.makeText(MainActivity.this, exception.getMessage(), Toast.LENGTH_LONG).show();
             }
         }
     }
