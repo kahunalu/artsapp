@@ -2,17 +2,24 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#90CAF9"
     tools:context="com.uvic.arts.MainActivity">
+
+    <ImageView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:src="@drawable/homescreen"
+        android:scaleType="centerCrop" />
 
     <Button
         android:id="@+id/scan_button"
         style="?metaButtonBarButtonStyle"
-        android:layout_width="300dp"
-        android:layout_height="200dp"
-        android:textSize="25sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="25dp"
+        android:textSize="20sp"
+        android:layout_marginBottom="60dp"
         android:background="@color/colorPrimary"
-        android:layout_gravity="center"
+        android:layout_gravity="center_horizontal|bottom"
         android:textColor="@android:color/white"
         android:elevation="8dp"
         android:text="@string/scan_anchor_tag"/>
