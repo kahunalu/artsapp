@@ -1,4 +1,4 @@
 <resources>
     <string name="app_name">ARTS</string>
-    <string name="scan_anchor_tag">Tap Here To \nScan Anchor Tag</string>
+    <string name="scan_anchor_tag">Scan Anchor Tag</string>
 </resources>

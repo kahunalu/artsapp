@@ -1,5 +1,6 @@
 package com.uvic.arts;
 
+import android.app.ActionBar;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -30,6 +31,16 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         this.initializeInstance();
+
+        ActionBar actionBar = getActionBar();
+        if (actionBar != null) {
+            actionBar.hide();
+        } else {
+            android.support.v7.app.ActionBar supportActionBar = getSupportActionBar();
+            if (supportActionBar != null) {
+                supportActionBar.hide();
+            }
+        }
 
         setContentView(R.layout.activity_main);
         Button scanButton = (Button) findViewById(R.id.scan_button);
